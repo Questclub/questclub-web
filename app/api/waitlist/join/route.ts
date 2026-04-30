@@ -22,6 +22,46 @@ function hashIp(ip: string): string {
   return createHash("sha256").update(ip).digest("hex");
 }
 
+function getBaseUrl(req: NextRequest): string {
+  // En prod canonicalizamos al dominio; en dev usamos el origen del request.
+  return process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL
+    ? process.env.NEXT_PUBLIC_APP_URL
+    : new URL(req.url).origin;
+}
+
+async function sendConfirmationEmail(opts: {
+  to: string;
+  token: string;
+  baseUrl: string;
+}): Promise<void> {
+  if (!resend) {
+    console.warn(
+      "[waitlist/join] Resend no configurado — email de confirmación NO enviado"
+    );
+    return;
+  }
+
+  const confirmUrl = `${opts.baseUrl}/api/waitlist/confirm?token=${opts.token}`;
+  const html = await render(ConfirmationEmail({ confirmUrl }));
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: FROM_EMAIL,
+      to: opts.to,
+      subject: "Confirma tu email — Quest Club",
+      html,
+    });
+
+    if (error) {
+      console.error("[waitlist/join] resend error:", error);
+    } else {
+      console.log("[waitlist/join] email enviado a", opts.to, "id:", data?.id);
+    }
+  } catch (err) {
+    console.error("[waitlist/join] resend network error:", err);
+  }
+}
+
 export async function POST(req: NextRequest) {
   // 1. Parse JSON
   let body: unknown;
@@ -61,7 +101,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // 5. Idempotencia: si el email ya está, devolvemos OK con su info
+  // 5. Idempotencia: si el email ya está, decidimos qué hacer según estado
   const { data: existing } = await supabaseAdmin
     .from("waitlist")
     .select("email, referral_code, confirmed_at")
@@ -69,9 +109,37 @@ export async function POST(req: NextRequest) {
     .maybeSingle();
 
   if (existing) {
+    if (existing.confirmed_at) {
+      // Ya confirmado: nada que reenviar, devolvemos OK
+      return NextResponse.json({
+        ok: true,
+        already: "confirmed",
+        referral_code: existing.referral_code,
+      });
+    }
+
+    // Existe pero sin confirmar: regeneramos token y reenviamos email.
+    // Útil si el usuario perdió el email original o nunca llegó.
+    const newToken = randomBytes(32).toString("base64url");
+    const { error: updateError } = await supabaseAdmin
+      .from("waitlist")
+      .update({ confirmation_token: newToken })
+      .eq("email", email);
+
+    if (updateError) {
+      console.error("[waitlist/join] update token error", updateError);
+      return NextResponse.json({ error: "Error interno" }, { status: 500 });
+    }
+
+    await sendConfirmationEmail({
+      to: email,
+      token: newToken,
+      baseUrl: getBaseUrl(req),
+    });
+
     return NextResponse.json({
       ok: true,
-      already: existing.confirmed_at ? "confirmed" : "pending",
+      already: "pending",
       referral_code: existing.referral_code,
     });
   }
@@ -123,47 +191,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Error al guardar" }, { status: 500 });
   }
 
-  // 10. Email de confirmación (si Resend configurado)
-  if (resend) {
-    // En prod usamos NEXT_PUBLIC_APP_URL (dominio canónico). En dev derivamos del request.
-    const baseUrl =
-      process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL
-        ? process.env.NEXT_PUBLIC_APP_URL
-        : new URL(req.url).origin;
-    const confirmUrl = `${baseUrl}/api/waitlist/confirm?token=${confirmationToken}`;
-    const html = await render(ConfirmationEmail({ confirmUrl }));
-
-    try {
-      // Resend SDK devuelve {data, error} — los errores de validación
-      // (dominio no verificado, etc) NO lanzan, vienen en .error.
-      const { data: emailData, error: emailError } = await resend.emails.send({
-        from: FROM_EMAIL,
-        to: email,
-        subject: "Confirma tu email — Quest Club",
-        html,
-      });
-
-      if (emailError) {
-        console.error("[waitlist/join] resend error:", emailError);
-      } else {
-        console.log(
-          "[waitlist/join] email enviado a",
-          email,
-          "id:",
-          emailData?.id
-        );
-      }
-    } catch (err) {
-      // Solo errores de red caen aquí.
-      console.error("[waitlist/join] resend network error:", err);
-    }
-    // No fallamos la request si el email falla — el usuario está en la lista.
-    // Podremos reenviar manualmente o con un endpoint /resend-confirmation.
-  } else {
-    console.warn(
-      "[waitlist/join] Resend no configurado — email de confirmación NO enviado"
-    );
-  }
+  // 10. Email de confirmación
+  await sendConfirmationEmail({
+    to: email,
+    token: confirmationToken,
+    baseUrl: getBaseUrl(req),
+  });
 
   return NextResponse.json({
     ok: true,
