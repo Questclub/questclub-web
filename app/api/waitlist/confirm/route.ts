@@ -4,8 +4,14 @@ import { supabaseAdmin } from "@/lib/supabase";
 export const runtime = "nodejs";
 
 export async function GET(req: NextRequest) {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-  const token = new URL(req.url).searchParams.get("token");
+  const reqUrl = new URL(req.url);
+  // En dev preferimos el origen del propio request (puerto que el user esté usando).
+  // En prod NEXT_PUBLIC_APP_URL tiene precedencia para canonicalizar al dominio.
+  const baseUrl =
+    process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : reqUrl.origin;
+  const token = reqUrl.searchParams.get("token");
 
   if (!token) {
     return NextResponse.redirect(`${baseUrl}/confirm?status=invalid`);

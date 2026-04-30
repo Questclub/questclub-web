@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { headers } from "next/headers";
 import { supabaseAdmin } from "@/lib/supabase";
 import ClientCopyButton from "@/components/copy-button";
 
@@ -67,8 +68,15 @@ export default async function ThanksPage({
     );
   }
 
+  // El referral URL aparece en botones de share — debe ser absoluto y canónico.
+  // En prod usamos APP_URL; en dev caemos a la URL en cuyo origin se renderiza la página.
+  const h = await headers();
+  const host = h.get("host") ?? "localhost:3000";
+  const protocol = h.get("x-forwarded-proto") ?? "http";
   const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL
+      ? process.env.NEXT_PUBLIC_APP_URL
+      : `${protocol}://${host}`;
   const referralUrl = `${baseUrl}/r/${stats.referral_code}`;
 
   return (

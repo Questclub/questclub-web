@@ -125,8 +125,11 @@ export async function POST(req: NextRequest) {
 
   // 10. Email de confirmación (si Resend configurado)
   if (resend) {
+    // En prod usamos NEXT_PUBLIC_APP_URL (dominio canónico). En dev derivamos del request.
     const baseUrl =
-      process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+      process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_APP_URL
+        ? process.env.NEXT_PUBLIC_APP_URL
+        : new URL(req.url).origin;
     const confirmUrl = `${baseUrl}/api/waitlist/confirm?token=${confirmationToken}`;
     const html = await render(ConfirmationEmail({ confirmUrl }));
 
