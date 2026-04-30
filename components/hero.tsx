@@ -1,4 +1,5 @@
 import SignupForm from "./signup-form";
+import Counter from "./counter";
 
 type Props = {
   refCode?: string;
@@ -33,9 +34,7 @@ export default function Hero({ refCode, showReferralBadge = false }: Props) {
 
       <SignupForm refCode={refCode} />
 
-      <p className="text-xs text-text-muted mt-3">
-        Pack Verano gratis para los primeros 1.000 · sin spam, solo el código
-      </p>
+      <Counter />
     </section>
   );
 }
