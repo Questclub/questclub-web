@@ -5,8 +5,8 @@ export default function Footer() {
         <div>
           <div className="text-xl font-bold mb-2">Quest Club</div>
           <p className="text-text-muted text-sm max-w-xs">
-            Retos por temporadas para grupos de amigos. Lanzamiento verano
-            2026.
+            Convertid lo siguiente que hagáis juntos en algo legendario.
+            Verano 2026.
           </p>
         </div>
 

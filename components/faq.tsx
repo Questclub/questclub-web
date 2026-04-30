@@ -1,27 +1,31 @@
 const FAQS = [
   {
     q: "¿Cuándo sale?",
-    a: "1 de julio de 2026 en App Store y Google Play. Avisamos por email a quien esté apuntado.",
+    a: "1 de julio de 2026 en App Store y Google Play. Avisamos por email a los apuntados.",
   },
   {
-    q: "¿Es gratis?",
-    a: "Sí, hay un pack gratuito al mes. Los packs de temporada cuestan entre 2,99 € y 4,99 €. Pase anual con todos: 14,99 €.",
+    q: "¿Cuánto cuesta jugar?",
+    a: "Cero. Crear grupo y vuestras misiones es gratis para siempre. Los packs temáticos cuestan 2,99-4,99 € si queréis ahorraros el curro de inventarlas, o gratis si esperáis al pack del mes que rota. Pase anual con todos: 14,99 €.",
+  },
+  {
+    q: "¿Y para qué sirven los packs entonces?",
+    a: "Para no inventaros 30 misiones cada temporada. Cada pack tiene tema (Verano = playa/viajes, Halloween = sustos/disfraces, Navidad = familia/regalos…), va curado por nosotros y se queda en vuestro grupo para siempre. Si os mola, lo desbloqueáis. Si no, jugáis con las vuestras.",
   },
   {
     q: "¿Quién ve mis fotos?",
-    a: "Solo los miembros de tu grupo. Nada se publica fuera. Ni en feeds, ni en stories, ni en perfiles públicos.",
+    a: "Solo tu grupo. Cero feed, cero stories, cero perfil público.",
   },
   {
     q: "¿Tengo que subir nada a Instagram?",
-    a: "No. Es un juego privado entre vosotros. Si queréis compartir algo afuera, lo descargáis y subís donde queráis.",
+    a: "No. Es un juego privado entre vosotros. Si queréis sacar algo afuera, lo descargáis y subís donde os apetezca.",
   },
   {
     q: "¿Edad mínima?",
-    a: "18 años. La app pide verificación de edad antes de jugar.",
+    a: "18 años. La app pide verificación al instalar.",
   },
   {
     q: "¿Retos picantes?",
-    a: "El catálogo oficial es seguro y compatible con cualquier grupo (familia, curro, lo que sea). Si tu grupo quiere meter caña, lo añadís vosotros como misiones custom.",
+    a: "El catálogo oficial es seguro y compatible con cualquier grupo (familia, curro, lo que sea). Picante lo añadís vosotros como misiones custom.",
   },
 ];
 

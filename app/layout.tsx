@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Toaster } from "sonner";
+import DottedBg from "@/components/dotted-bg";
 import "./globals.css";
 
 const geist = Geist({
@@ -50,7 +51,8 @@ export default function RootLayout({
       className={`${geist.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        {children}
+        <DottedBg />
+        <div className="relative z-10 flex flex-col flex-1">{children}</div>
         <Toaster position="top-center" theme="dark" richColors />
         <Analytics />
       </body>

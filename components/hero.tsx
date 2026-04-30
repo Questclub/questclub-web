@@ -27,9 +27,8 @@ export default function Hero({ refCode, showReferralBadge = false }: Props) {
       </h1>
 
       <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-10">
-        Quest Club convierte cualquier finde, viaje o fiesta en un juego real.
-        Misiones, pruebas, votaciones, y un ranking que os seguirá toda la
-        vida.
+        Convertid el próximo viaje, despedida o finde en algo legendario.
+        Vuestras misiones o las nuestras.
       </p>
 
       <SignupForm refCode={refCode} />

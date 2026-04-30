@@ -11,8 +11,8 @@ export default function CtaSection() {
           Pack Verano gratis
         </h2>
         <p className="text-bg/80 text-base md:text-lg mb-8 max-w-xl mx-auto">
-          Para los primeros apuntados. Código en tu email el día del
-          lanzamiento. Sin compromiso, sin spam, sin tarjeta.
+          Para los primeros apuntados. Probáis la versión premium sin pagar
+          y seguís jugando gratis después. Sin tarjeta, sin spam.
         </p>
         <div className="bg-bg/95 rounded-2xl p-6">
           <SignupForm variant="inverted" />

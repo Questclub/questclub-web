@@ -1,18 +1,18 @@
 const STEPS = [
   {
     n: "01",
-    t: "Monta tu grupo",
-    d: "4 a 8 colegas, código de 6 letras, se unen por WhatsApp en 30 segundos.",
+    t: "Crea el grupo",
+    d: "Hasta 30 personas. Código de 6 letras, en WhatsApp se unen en 30 segundos. Gratis.",
   },
   {
     n: "02",
-    t: "Desbloquea el pack",
-    d: "Verano, Halloween, Navidad, San Valentín… Un pack nuevo cada 6-8 semanas.",
+    t: "Misiones a medida",
+    d: "Las escribís vosotros, o desbloqueáis un pack curado por temporada (Verano, Halloween, Navidad…).",
   },
   {
     n: "03",
-    t: "Misión, prueba, ranking",
-    d: "Foto o vídeo, tus amigos votan, gana quien se moje.",
+    t: "Foto, voto, ranking",
+    d: "Subes prueba, vota el grupo, suma puntos. El ranking dura toda la vida del grupo.",
   },
 ];
 

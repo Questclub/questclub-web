@@ -14,8 +14,9 @@ export default function Seasons() {
         Un año entero de retos
       </h2>
       <p className="text-text-muted text-center mb-12 max-w-xl mx-auto">
-        No es una app de verano. Cada temporada un pack de misiones nuevo.
-        Ranking histórico que os seguirá toda la vida.
+        Cada temporada, un pack temático nuevo. El ranking del grupo se
+        acumula entre todas. Lo que pasa esta semana cuenta dentro de 5
+        años.
       </p>
       <div className="flex flex-wrap justify-center gap-3">
         {SEASONS.map((s) => (
