@@ -134,16 +134,31 @@ export async function POST(req: NextRequest) {
     const html = await render(ConfirmationEmail({ confirmUrl }));
 
     try {
-      await resend.emails.send({
+      // Resend SDK devuelve {data, error} — los errores de validación
+      // (dominio no verificado, etc) NO lanzan, vienen en .error.
+      const { data: emailData, error: emailError } = await resend.emails.send({
         from: FROM_EMAIL,
         to: email,
         subject: "Confirma tu email — Quest Club",
         html,
       });
+
+      if (emailError) {
+        console.error("[waitlist/join] resend error:", emailError);
+      } else {
+        console.log(
+          "[waitlist/join] email enviado a",
+          email,
+          "id:",
+          emailData?.id
+        );
+      }
     } catch (err) {
-      console.error("[waitlist/join] resend send error", err);
-      // No fallamos: el usuario está en la lista. Podrá pedir reenvío después.
+      // Solo errores de red caen aquí.
+      console.error("[waitlist/join] resend network error:", err);
     }
+    // No fallamos la request si el email falla — el usuario está en la lista.
+    // Podremos reenviar manualmente o con un endpoint /resend-confirmation.
   } else {
     console.warn(
       "[waitlist/join] Resend no configurado — email de confirmación NO enviado"

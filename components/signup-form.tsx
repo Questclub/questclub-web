@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -9,6 +9,8 @@ const emailSchema = z
   .trim()
   .toLowerCase()
   .email("Introduce un email válido");
+
+const STORAGE_KEY = "qc_waitlist_email";
 
 type Props = {
   refCode?: string;
@@ -25,6 +27,20 @@ export default function SignupForm({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+
+  // Persistencia: si el usuario ya envió un email en este navegador,
+  // al volver a la home le mostramos el "Casi dentro" en lugar del form.
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        setEmail(stored);
+        setDone(true);
+      }
+    } catch {
+      // localStorage puede fallar en modo privado/SSR — ignoramos
+    }
+  }, []);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -62,6 +78,11 @@ export default function SignupForm({
         toast.success("Ya estabas en la lista.");
       } else {
         toast.success("Revisa tu email para confirmar tu plaza.");
+      }
+      try {
+        localStorage.setItem(STORAGE_KEY, parsed.data);
+      } catch {
+        // ignoramos si localStorage no está disponible
       }
       setDone(true);
     } catch {
