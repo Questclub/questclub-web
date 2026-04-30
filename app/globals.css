@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  /* Paleta Quest Club — Lime/Black */
+  --color-bg: #0a0a0a;
+  --color-surface: #171717;
+  --color-border: #262626;
+  --color-text: #fafafa;
+  --color-text-muted: #a3a3a3;
+
+  --color-lime-400: #84cc16;
+  --color-lime-300: #bef264;
+  --color-lime-500: #65a30d;
+
+  /* Tipografía */
+  --font-heading: var(--font-space-grotesk);
+  --font-sans: var(--font-geist);
+}
+
+html,
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+/* Headings usan Space Grotesk por defecto */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Selección de texto */
+::selection {
+  background: var(--color-lime-400);
+  color: var(--color-bg);
+}
