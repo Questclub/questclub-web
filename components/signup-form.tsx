@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 const emailSchema = z
   .string()
@@ -11,6 +12,7 @@ const emailSchema = z
   .email("Introduce un email válido");
 
 const STORAGE_KEY = "qc_waitlist_email";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
 type Props = {
   refCode?: string;
@@ -27,6 +29,8 @@ export default function SignupForm({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   // Persistencia: si el usuario ya envió un email en este navegador,
   // al volver a la home le mostramos el "Casi dentro" en lugar del form.
@@ -52,6 +56,11 @@ export default function SignupForm({
       return;
     }
 
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      toast.error("Verifica que no eres un bot antes de continuar");
+      return;
+    }
+
     setLoading(true);
     try {
       const res = await fetch("/api/waitlist/join", {
@@ -61,9 +70,9 @@ export default function SignupForm({
           email: parsed.data,
           ref: refCode,
           source: refCode ? "referral" : source,
-          // TODO: cuando NEXT_PUBLIC_TURNSTILE_SITE_KEY exista, sustituir
-          // por el token real del widget Turnstile.
-          turnstileToken: "no-turnstile-configured",
+          // Si Turnstile está configurado mandamos el token real;
+          // si no, un placeholder que la API acepta cuando no hay secret key.
+          turnstileToken: turnstileToken ?? "no-turnstile-configured",
         }),
       });
 
@@ -71,6 +80,9 @@ export default function SignupForm({
 
       if (!res.ok) {
         toast.error(data?.error ?? "Algo ha ido mal. Inténtalo de nuevo.");
+        // Reseteamos Turnstile para que el usuario pueda reintentar
+        turnstileRef.current?.reset();
+        setTurnstileToken(null);
         return;
       }
 
@@ -115,28 +127,40 @@ export default function SignupForm({
       : "bg-lime-400 text-bg hover:bg-lime-300";
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="w-full max-w-md mx-auto flex flex-col sm:flex-row gap-2"
-    >
-      <input
-        type="email"
-        inputMode="email"
-        autoComplete="email"
-        required
-        placeholder="tu@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={loading}
-        className="flex-1 bg-surface border border-border rounded-full px-5 py-3 text-text placeholder:text-text-muted focus:outline-none focus:border-lime-400 disabled:opacity-60"
-      />
-      <button
-        type="submit"
-        disabled={loading}
-        className={`font-bold px-6 py-3 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed ${buttonClass}`}
-      >
-        {loading ? "Enviando…" : "Apúntate"}
-      </button>
+    <form onSubmit={onSubmit} className="w-full max-w-md mx-auto">
+      <div className="flex flex-col sm:flex-row gap-2">
+        <input
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          required
+          placeholder="tu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
+          className="flex-1 bg-surface border border-border rounded-full px-5 py-3 text-text placeholder:text-text-muted focus:outline-none focus:border-lime-400 disabled:opacity-60"
+        />
+        <button
+          type="submit"
+          disabled={loading}
+          className={`font-bold px-6 py-3 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed ${buttonClass}`}
+        >
+          {loading ? "Enviando…" : "Apúntate"}
+        </button>
+      </div>
+
+      {TURNSTILE_SITE_KEY && (
+        <div className="mt-3 flex justify-center">
+          <Turnstile
+            ref={turnstileRef}
+            siteKey={TURNSTILE_SITE_KEY}
+            options={{ theme: "dark", size: "flexible" }}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onError={() => setTurnstileToken(null)}
+            onExpire={() => setTurnstileToken(null)}
+          />
+        </div>
+      )}
     </form>
   );
 }
