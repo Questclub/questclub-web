@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
+import { track } from "@vercel/analytics";
 
 export default function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -11,6 +12,7 @@ export default function CopyButton({ text }: { text: string }) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       toast.success("Copiado");
+      track("referral_link_copied");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       toast.error("No se pudo copiar");

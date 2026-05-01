@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { track } from "@vercel/analytics";
 
 export default function StickyCTA() {
   const [visible, setVisible] = useState(false);
@@ -16,6 +17,7 @@ export default function StickyCTA() {
   }, []);
 
   function focusSignupForm() {
+    track("sticky_cta_clicked");
     // Buscamos el primer input de email visible (hero o CTA final).
     const input = document.querySelector<HTMLInputElement>(
       'input[type="email"]'

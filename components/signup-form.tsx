@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
+import { track } from "@vercel/analytics";
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 
 const emailSchema = z
@@ -94,6 +95,10 @@ export default function SignupForm({
       } else {
         toast.success("Revisa tu email para confirmar tu plaza.");
       }
+      track("signup_submitted", {
+        source: refCode ? "referral" : source,
+        status: data.already ?? "new",
+      });
       if (data.referral_code) {
         setReferralCode(data.referral_code);
       }
@@ -140,6 +145,11 @@ export default function SignupForm({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() =>
+            track("whatsapp_share_clicked", {
+              has_referral_code: Boolean(referralCode),
+            })
+          }
           className="block w-full text-center bg-lime-400 text-bg font-bold py-3 rounded-full hover:bg-lime-300 transition"
         >
           Enviar al grupo de WhatsApp →
