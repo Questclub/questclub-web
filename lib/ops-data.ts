@@ -40,21 +40,19 @@ export const SOCIAL_ACCOUNTS: SocialAccount[] = [
   {
     platform: "instagram",
     handle: "@questclubapp",
-    status: "banned",
+    status: "active",
     createdAt: "2026-05-01",
     followers: 0,
     posts: 0,
-    notes:
-      "Bloqueada de primeras al crearla. Posibles causas: email forwardeado detectado como sospechoso, IP nueva sin actividad, account creation patterns. Pendiente: apelar o crear con email/dispositivo distinto.",
   },
   {
     platform: "threads",
     handle: "@questclubapp",
-    status: "pending",
+    status: "active",
     createdAt: "2026-05-01",
     followers: 0,
     posts: 0,
-    notes: "Hereda de IG. Bloqueado mientras IG esté banneada.",
+    notes: "Activada vía IG. Si todavía no la has linkado, hazlo desde la app de Threads para empezar a postear.",
   },
 ];
 
@@ -119,8 +117,9 @@ export const ISSUES: Issue[] = [
     description:
       "Al crear la cuenta de Instagram con email hola@questclub.app, IG la marcó como spam y la bloqueó de primeras antes de poder publicar nada. Posibles causas: email forwardeado detectado como sospechoso, IP nueva sin actividad previa, o automated account creation patterns. Pendiente de apelar desde la app o crear con otro email/dispositivo.",
     severity: "high",
-    status: "open",
+    status: "resolved",
     createdAt: "2026-05-01",
+    resolvedAt: "2026-05-01",
   },
 ];
 
