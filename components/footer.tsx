@@ -12,12 +12,12 @@ export default function Footer() {
 
         <div className="flex flex-col gap-2 text-sm text-text-muted">
           <a
-            href="https://tiktok.com/@questclub.app"
+            href="https://tiktok.com/@questclubapp"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-lime-400 transition"
           >
-            TikTok @questclub.app
+            TikTok @questclubapp
           </a>
           <a
             href="https://instagram.com/questclub.app"
@@ -25,15 +25,15 @@ export default function Footer() {
             rel="noopener noreferrer"
             className="hover:text-lime-400 transition"
           >
-            Instagram @questclub.app
+            Instagram @questclubapp
           </a>
           <a
-            href="https://threads.net/@questclub.app"
+            href="https://threads.net/@questclubapp"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-lime-400 transition"
           >
-            Threads @questclub.app
+            Threads @questclubapp
           </a>
           <a
             href="mailto:hola@questclub.app"
