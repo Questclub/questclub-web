@@ -1,4 +1,5 @@
 import Hero from "@/components/hero";
+import GroupGate from "@/components/group-gate";
 import Countdown from "@/components/countdown";
 import HowItWorks from "@/components/how-it-works";
 import Seasons from "@/components/seasons";
@@ -18,6 +19,7 @@ export default function Page() {
     <>
       <main className="flex-1">
         <Hero />
+        <GroupGate />
         <Countdown />
         <HowItWorks />
         <Seasons />

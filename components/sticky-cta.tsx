@@ -15,8 +15,19 @@ export default function StickyCTA() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  function scrollTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+  function focusSignupForm() {
+    // Buscamos el primer input de email visible (hero o CTA final).
+    const input = document.querySelector<HTMLInputElement>(
+      'input[type="email"]'
+    );
+    if (input) {
+      input.scrollIntoView({ behavior: "smooth", block: "center" });
+      // Le damos tiempo al smooth scroll antes de focusear (evita que
+      // el browser anule el scroll por el focus).
+      setTimeout(() => input.focus({ preventScroll: true }), 600);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   return (
@@ -37,7 +48,7 @@ export default function StickyCTA() {
         </div>
         <button
           type="button"
-          onClick={scrollTop}
+          onClick={focusSignupForm}
           className="bg-lime-400 text-bg font-bold px-5 py-2.5 rounded-full text-sm shrink-0"
         >
           Apúntate

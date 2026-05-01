@@ -1,8 +1,8 @@
 const MISSIONS = [
-  "Consigue que un desconocido te recomiende un sitio y hazte una foto con él.",
-  "Pide prestado algo absurdo a otro grupo de amigos.",
-  "Habla un minuto entero en un idioma inventado con un camarero.",
-  "Consigue un autógrafo de alguien que no sea famoso.",
+  "Recread una escena de película famosa usando solo cosas que tengáis a mano.",
+  "Foto de grupo con el peor outfit turístico posible.",
+  "Haced una portada de disco falsa con vuestro grupo, título incluido.",
+  "Foto de grupo con el perro más cool que encontréis en la calle.",
   "Mételo todo en la piscina vestido, menos el móvil.",
 ];
 

@@ -5,7 +5,7 @@ const FAQS = [
   },
   {
     q: "¿Cuánto cuesta jugar?",
-    a: "Cero. Crear grupo y vuestras misiones es gratis para siempre. Los packs temáticos cuestan 2,99-4,99 € si queréis ahorraros el curro de inventarlas, o gratis si esperáis al pack del mes que rota. Pase anual con todos: 14,99 €.",
+    a: "Cero. Crear grupo y vuestras misiones es gratis para siempre. Los packs temáticos opcionales cuestan 2,99-4,99 € (o 14,99 € pase anual con todos), y siempre tendréis un pack distinto gratis cada mes — el Pack Verano es el primero.",
   },
   {
     q: "¿Y para qué sirven los packs entonces?",

@@ -27,8 +27,8 @@ export default function Hero({ refCode, showReferralBadge = false }: Props) {
       </h1>
 
       <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-10">
-        Convertid el próximo viaje, despedida o finde en algo legendario.
-        Vuestras misiones o las nuestras.
+        Misiones, pruebas con foto y vídeo, votaciones internas. Un ranking
+        que se queda en vuestro grupo para siempre.
       </p>
 
       <SignupForm refCode={refCode} />

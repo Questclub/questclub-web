@@ -12,7 +12,7 @@ export default function CtaSection() {
         </h2>
         <p className="text-bg/80 text-base md:text-lg mb-8 max-w-xl mx-auto">
           Para los primeros apuntados. Probáis la versión premium sin pagar
-          y seguís jugando gratis después. Sin tarjeta, sin spam.
+          y después un pack distinto gratis cada mes. Sin tarjeta, sin spam.
         </p>
         <div className="bg-bg/95 rounded-2xl p-6">
           <SignupForm variant="inverted" />
