@@ -29,11 +29,12 @@ export default function SignupForm({
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance | null>(null);
 
   // Persistencia: si el usuario ya envió un email en este navegador,
-  // al volver a la home le mostramos el "Casi dentro" en lugar del form.
+  // al volver a la home le mostramos el "Estás dentro" en lugar del form.
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
@@ -41,6 +42,8 @@ export default function SignupForm({
         setEmail(stored);
         setDone(true);
       }
+      const storedCode = localStorage.getItem(`${STORAGE_KEY}_code`);
+      if (storedCode) setReferralCode(storedCode);
     } catch {
       // localStorage puede fallar en modo privado/SSR — ignoramos
     }
@@ -91,8 +94,14 @@ export default function SignupForm({
       } else {
         toast.success("Revisa tu email para confirmar tu plaza.");
       }
+      if (data.referral_code) {
+        setReferralCode(data.referral_code);
+      }
       try {
         localStorage.setItem(STORAGE_KEY, parsed.data);
+        if (data.referral_code) {
+          localStorage.setItem(`${STORAGE_KEY}_code`, data.referral_code);
+        }
       } catch {
         // ignoramos si localStorage no está disponible
       }
@@ -105,16 +114,47 @@ export default function SignupForm({
   }
 
   if (done) {
+    const baseUrl =
+      typeof window !== "undefined" ? window.location.origin : "";
+    const referralUrl = referralCode
+      ? `${baseUrl}/r/${referralCode}`
+      : baseUrl;
+    const shareMessage = `He encontrado esta app: QuestClub. Misiones, pruebas con foto/vídeo y ranking privado entre nosotros. Si entramos 4 desde mi enlace, desbloqueamos el Pack Verano gratis: ${referralUrl}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareMessage)}`;
+
     return (
       <div className="w-full max-w-md mx-auto bg-surface border border-border rounded-2xl p-6 text-left">
         <div className="text-lime-400 text-sm font-bold mb-2">
-          📧 Casi dentro
+          ✓ Estás dentro
         </div>
-        <p className="text-text">
-          Te hemos enviado un email a <strong>{email}</strong>. Pulsa el enlace
-          para confirmar y reservar tu plaza.
+        <p className="text-text mb-2">
+          Te hemos enviado un email a{" "}
+          <strong className="break-all">{email}</strong>. Pulsa el enlace para
+          confirmar.
         </p>
-        <p className="text-text-muted text-sm mt-3">
+        <p className="text-text mb-4">
+          <strong>Ahora viene la parte importante:</strong> mete a tu grupo.
+          Cada amigo que confirme te sube 100 puestos.
+        </p>
+        <a
+          href={whatsappUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full text-center bg-lime-400 text-bg font-bold py-3 rounded-full hover:bg-lime-300 transition"
+        >
+          Enviar al grupo de WhatsApp →
+        </a>
+        {referralCode && (
+          <div className="mt-4 pt-4 border-t border-border">
+            <p className="text-text-muted text-xs mb-1">
+              Tu enlace de referidos:
+            </p>
+            <code className="text-lime-400 text-xs break-all font-mono">
+              {referralUrl}
+            </code>
+          </div>
+        )}
+        <p className="text-text-muted text-xs mt-4">
           Revisa también la carpeta de spam. El enlace caduca en 24h.
         </p>
       </div>
