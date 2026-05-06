@@ -21,14 +21,14 @@ export default function Hero({ refCode, showReferralBadge = false }: Props) {
       )}
 
       <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-[0.95] mb-6">
-        Tu grupo de amigos
+        Para el grupo que dijo
         <br />
-        <span className="text-lime-400">contra el mundo.</span>
+        <span className="text-lime-400">&apos;ya veremos&apos;</span>{" "}
+        demasiadas veces.
       </h1>
 
       <p className="text-lg md:text-xl text-text-muted max-w-2xl mx-auto mb-10">
-        Misiones, pruebas con foto y vídeo, votaciones internas. Un ranking
-        que se queda en vuestro grupo para siempre.
+        Misiones que rescatan grupos antes de que el chat se muera del todo.
       </p>
 
       <SignupForm refCode={refCode} />

@@ -1,4 +1,5 @@
 import Hero from "@/components/hero";
+import CycleOfTheGroup from "@/components/cycle-of-the-group";
 import GroupGate from "@/components/group-gate";
 import Countdown from "@/components/countdown";
 import HowItWorks from "@/components/how-it-works";
@@ -21,6 +22,7 @@ export default function Page() {
     <>
       <main className="flex-1">
         <Hero />
+        <CycleOfTheGroup />
         <GroupGate />
         <Countdown />
         <HowItWorks />

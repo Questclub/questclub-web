@@ -195,7 +195,7 @@ export default function SignupForm({
           disabled={loading}
           className={`font-bold px-6 py-3 rounded-full transition disabled:opacity-60 disabled:cursor-not-allowed ${buttonClass}`}
         >
-          {loading ? "Enviando…" : "Apúntate"}
+          {loading ? "Enviando…" : "Salva tu grupo →"}
         </button>
       </div>
 
