@@ -1,5 +1,10 @@
 import { supabaseAdmin } from "@/lib/supabase";
-import { SOCIAL_ACCOUNTS, ISSUES, WARMUP_VIDEOS } from "@/lib/ops-data";
+import {
+  SOCIAL_ACCOUNTS,
+  ISSUES,
+  WARMUP_VIDEOS,
+  CONTENT_CAROUSELS,
+} from "@/lib/ops-data";
 
 export const dynamic = "force-dynamic";
 
@@ -56,6 +61,47 @@ export default async function Overview() {
   const bannedAccounts = SOCIAL_ACCOUNTS.filter((a) => a.status === "banned")
     .length;
   const postedVideos = WARMUP_VIDEOS.filter((v) => v.status === "posted").length;
+  const today = new Date().toISOString().slice(0, 10);
+
+  type DropCandidate = {
+    title: string;
+    date: string;
+    hour?: string;
+    kind: "video" | "carousel";
+    extra?: string;
+  };
+  const allDrops: DropCandidate[] = [
+    ...WARMUP_VIDEOS.filter(
+      (v) => v.scheduledDate && v.scheduledDate >= today && v.status !== "posted"
+    ).map<DropCandidate>((v) => ({
+      title: v.title,
+      date: v.scheduledDate!,
+      hour: v.scheduledHour,
+      kind: "video",
+      extra: v.archetype ?? v.format,
+    })),
+    ...CONTENT_CAROUSELS.filter(
+      (c) => c.scheduledDate && c.scheduledDate >= today && c.status !== "posted"
+    ).map<DropCandidate>((c) => ({
+      title: c.title,
+      date: c.scheduledDate!,
+      hour: c.scheduledHour,
+      kind: "carousel",
+      extra: `${c.slidesCount} slides`,
+    })),
+  ];
+  allDrops.sort((a, b) => {
+    if (a.date !== b.date) return a.date.localeCompare(b.date);
+    return (a.hour ?? "").localeCompare(b.hour ?? "");
+  });
+  const nextDrop = allDrops[0];
+
+  const ideaVideos = WARMUP_VIDEOS.filter((v) => v.status === "idea").length;
+  const editingVideos = WARMUP_VIDEOS.filter((v) => v.status === "editing").length;
+  const carouselsTotal = CONTENT_CAROUSELS.length;
+  const carouselsPosted = CONTENT_CAROUSELS.filter((c) => c.status === "posted").length;
+  const carouselsEditing = CONTENT_CAROUSELS.filter((c) => c.status === "editing").length;
+  const carouselsIdea = CONTENT_CAROUSELS.filter((c) => c.status === "idea").length;
 
   return (
     <div>
@@ -73,6 +119,24 @@ export default async function Overview() {
         <Kpi label="Últimos 7d" value={stats.last7d} />
       </div>
 
+      {nextDrop && (
+        <div className="bg-lime-400/5 border border-lime-400/30 rounded-2xl p-5 mb-8">
+          <div className="flex items-baseline justify-between mb-2">
+            <div className="text-xs font-mono text-lime-400 uppercase tracking-wider">
+              Next drop
+            </div>
+            <div className="text-xs font-mono text-text-muted">
+              {nextDrop.kind === "video" ? "🎬 vídeo" : "📚 carrusel"}
+            </div>
+          </div>
+          <div className="text-lg font-bold mb-1">{nextDrop.title}</div>
+          <div className="text-sm text-text-muted font-mono">
+            {nextDrop.date} · {nextDrop.hour} ES
+            {nextDrop.extra ? ` · ${nextDrop.extra}` : ""}
+          </div>
+        </div>
+      )}
+
       <div className="grid md:grid-cols-2 gap-6">
         <Panel title="Operación" code="A">
           <Row label="Cuentas sociales activas">
@@ -85,8 +149,29 @@ export default async function Overview() {
               <span className="text-text-muted">0</span>
             )}
           </Row>
-          <Row label="Videos warmup publicados">
+          <Row label="Videos publicados">
             {postedVideos} / {WARMUP_VIDEOS.length}
+          </Row>
+          <Row label="Carruseles publicados">
+            {carouselsPosted} / {carouselsTotal}
+          </Row>
+          <Row label="Por producir (idea)">
+            {ideaVideos + carouselsIdea > 0 ? (
+              <span className="text-amber-400">
+                {ideaVideos + carouselsIdea}
+              </span>
+            ) : (
+              <span className="text-text-muted">0</span>
+            )}
+          </Row>
+          <Row label="En edición">
+            {editingVideos + carouselsEditing > 0 ? (
+              <span className="text-cyan-400">
+                {editingVideos + carouselsEditing}
+              </span>
+            ) : (
+              <span className="text-text-muted">0</span>
+            )}
           </Row>
           <Row label="Issues abiertos">
             {openIssues > 0 ? (
