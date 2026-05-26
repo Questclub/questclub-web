@@ -9,10 +9,7 @@ export default function Privacidad() {
   return (
     <>
       <main className="flex-1 px-6 py-16 md:py-20 max-w-3xl mx-auto">
-        <a
-          href="/"
-          className="text-sm text-text-muted hover:text-lime-400 transition"
-        >
+        <a href="/" className="text-sm text-text-muted hover:text-lime-400 transition">
           ← Volver al inicio
         </a>
 
@@ -20,121 +17,107 @@ export default function Privacidad() {
           Política de privacidad
         </h1>
         <p className="text-text-muted mb-12">
-          Última actualización: 30 abril 2026
+          Última actualización: 26 mayo 2026
         </p>
 
-        <div className="prose-content space-y-8 text-text-muted leading-relaxed">
+        <div className="space-y-8 text-text-muted leading-relaxed">
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              1. Quiénes somos
-            </h2>
+            <h2 className="text-xl font-bold text-text mb-2">1. Responsable</h2>
             <p>
-              Esta web la opera <strong className="text-text">Quest Club</strong>,
-              proyecto en pre-lanzamiento. Para cualquier asunto relacionado con
-              tus datos puedes contactarnos en{" "}
-              <a
-                href="mailto:hola@questclub.app"
-                className="text-lime-400 hover:underline"
-              >
-                hola@questclub.app
+              Quest Club es una app móvil para grupos privados de amigos. Para cualquier asunto de
+              privacidad puedes escribir a{" "}
+              <a href="mailto:privacy@questclub.app" className="text-lime-400 hover:underline">
+                privacy@questclub.app
               </a>
               .
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              2. Qué datos recogemos
-            </h2>
-            <p>
-              Cuando te apuntas a la lista de espera guardamos tu email, junto
-              a metadatos mínimos (un hash de tu IP, fecha de alta, user-agent
-              truncado y, si aplica, el código de referido que te invitó). El
-              hash de IP es irreversible: lo usamos solo para detectar abuso,
-              nunca podremos identificarte por él.
-            </p>
-            <p>No recogemos cookies de seguimiento ni perfilamos a usuarios.</p>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              3. Para qué los usamos
-            </h2>
+            <h2 className="text-xl font-bold text-text mb-2">2. Qué datos recogemos</h2>
             <ul className="list-disc list-inside space-y-1">
-              <li>Mantenerte en la lista de espera y avisarte del lanzamiento.</li>
-              <li>Enviarte el código del Pack Verano gratis si entraste antes del cierre.</li>
-              <li>Notificaciones puntuales sobre temporadas y novedades del producto.</li>
+              <li>Email de registro, usado para enviarte el código de acceso e identificar tu cuenta.</li>
+              <li>Nombre y avatar que eliges dentro de la app.</li>
+              <li>Grupos a los que perteneces y rol dentro de cada grupo.</li>
+              <li>Fotos que subes como prueba de misiones, visibles solo para miembros de tu grupo.</li>
+              <li>Votos, reportes y actividad necesaria para calcular rankings y progreso.</li>
+              <li>Token de notificaciones push si aceptas recibir avisos del grupo.</li>
+              <li>Eventos de uso agregados para entender y mejorar el producto.</li>
             </ul>
             <p className="mt-2">
-              <strong className="text-text">Base legal:</strong> tu
-              consentimiento al apuntarte (Art. 6.1.a RGPD).
+              No recogemos ubicación precisa, contactos, datos de redes sociales, historial de
+              navegación ni trackers publicitarios.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              4. Quién accede a tus datos
-            </h2>
-            <p>
-              Trabajamos con dos encargados de tratamiento:
-            </p>
+            <h2 className="text-xl font-bold text-text mb-2">3. Para qué usamos los datos</h2>
             <ul className="list-disc list-inside space-y-1">
-              <li>
-                <strong className="text-text">Supabase</strong> (Reino
-                Unido/UE) — almacena la base de datos. Cumple RGPD.
-              </li>
-              <li>
-                <strong className="text-text">Resend</strong> (EE. UU.) —
-                envía los emails. Transferencia internacional amparada por
-                cláusulas contractuales tipo (SCC) y, en su caso, el marco
-                Data Privacy Framework UE-EE. UU.
-              </li>
+              <li>Crear tu cuenta y permitirte entrar a grupos privados.</li>
+              <li>Mostrar misiones, pruebas, votaciones, rankings y progreso del grupo.</li>
+              <li>Enviar notificaciones relacionadas con la actividad del grupo.</li>
+              <li>Atender solicitudes de soporte, privacidad y seguridad.</li>
+              <li>Medir uso agregado para mejorar Quest Club.</li>
             </ul>
-            <p>No vendemos tus datos a terceros. Nunca lo haremos.</p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              5. Cuánto los guardamos
-            </h2>
-            <p>
-              Los datos se conservan mientras estés en la lista o hasta 12
-              meses después del lanzamiento, lo que ocurra antes. Si solicitas
-              la baja, los borramos en un máximo de 30 días.
+            <h2 className="text-xl font-bold text-text mb-2">4. Con quién compartimos datos</h2>
+            <p>Usamos proveedores técnicos para operar el servicio:</p>
+            <ul className="list-disc list-inside space-y-1">
+              <li>Supabase para base de datos, autenticación y almacenamiento de imágenes.</li>
+              <li>Expo para actualizaciones y notificaciones push.</li>
+              <li>Apple y Google para distribución de la app y servicios del sistema operativo.</li>
+            </ul>
+            <p className="mt-2">
+              No vendemos, alquilamos ni cedemos tus datos con fines publicitarios.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              6. Tus derechos
-            </h2>
+            <h2 className="text-xl font-bold text-text mb-2">5. Privacidad del grupo</h2>
             <p>
-              Como titular de los datos puedes ejercer en cualquier momento
-              tus derechos de acceso, rectificación, supresión, oposición,
-              portabilidad y limitación del tratamiento. Escríbenos a{" "}
-              <a
-                href="mailto:hola@questclub.app"
-                className="text-lime-400 hover:underline"
-              >
-                hola@questclub.app
-              </a>{" "}
-              indicando tu petición.
-            </p>
-            <p>
-              Si crees que no hemos atendido bien tu solicitud, puedes
-              reclamar ante la Agencia Española de Protección de Datos
-              (aepd.es).
+              Quest Club no es una red social pública. Las pruebas y rankings se muestran solo a los
+              miembros del grupo correspondiente, salvo obligaciones legales o necesidades de seguridad.
             </p>
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-text mb-2">
-              7. Cambios en esta política
-            </h2>
+            <h2 className="text-xl font-bold text-text mb-2">6. Conservación y eliminación</h2>
             <p>
-              Podemos actualizar este texto. Cuando haya cambios relevantes
-              te avisaremos por email. La fecha de la última actualización
-              aparece arriba del documento.
+              Conservamos tus datos mientras tu cuenta esté activa. Puedes solicitar la eliminación de
+              tu cuenta desde la app o escribiendo a{" "}
+              <a href="mailto:privacy@questclub.app" className="text-lime-400 hover:underline">
+                privacy@questclub.app
+              </a>
+              . Eliminaremos tu perfil y tus pruebas en un máximo de 30 días, salvo datos que debamos
+              conservar por obligaciones legales o seguridad.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-text mb-2">7. Tus derechos</h2>
+            <p>
+              Puedes solicitar acceso, rectificación, portabilidad, limitación u oposición al
+              tratamiento de tus datos. Escríbenos a privacy@questclub.app desde el email de tu cuenta.
+              También puedes reclamar ante la Agencia Española de Protección de Datos.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-text mb-2">8. Menores</h2>
+            <p>
+              Quest Club está pensada para personas mayores de 16 años. Si detectamos que una cuenta
+              pertenece a una persona menor de esa edad, podremos eliminarla.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-text mb-2">9. Seguridad</h2>
+            <p>
+              Usamos HTTPS, Row Level Security en base de datos y almacenamiento privado con URLs
+              firmadas para las pruebas. Ningún sistema es perfecto; para problemas graves escribe a
+              soporte@questclub.app.
             </p>
           </section>
         </div>

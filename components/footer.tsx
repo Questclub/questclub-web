@@ -50,6 +50,12 @@ export default function Footer() {
           <a href="/terminos" className="hover:text-lime-400 transition">
             Términos
           </a>
+          <a href="/normas" className="hover:text-lime-400 transition">
+            Normas
+          </a>
+          <a href="/account-deletion" className="hover:text-lime-400 transition">
+            Eliminar cuenta
+          </a>
           <span className="text-text-muted">© 2026 Quest Club</span>
         </div>
       </div>
